@@ -1,7 +1,7 @@
 <html>
 <head>
-	<tittle>方块测试
-	</tittle>
+	<title>方块测试
+	</title>
 	<script>
 	var ca;
 	function line2d(a,b){
@@ -11,9 +11,9 @@
 	}
 	function trans(a){
 		var b={x:0,y:0,z:0};
-		b.x=a.x*250/a.z;
-		b.y=a.y*250/a.z;
-		a.z=b.z;
+		b.x=(a.x*500)/a.z;
+		b.y=(a.y*500)/a.z;
+		b.z=a.z;
 		return b;
 	}
 	function shape2d(a){
@@ -33,19 +33,51 @@
 		for(var i=0;i<a.length;i++){
 			b[i]=trans(a[i]);
 		}
-		shape2d(a);
+		shape2d(b);
 	}
 	function cube(a){
-		var v111={x:a.x+0.5,y:a.y+0.5,z:a.z+0.5};
-		var v110={x:a.x+0.5,y:a.y+0.5,z:a.z-0.5};
-		var v101={x:a.x+0.5,y:a.y-0.5,z:a.z+0.5};
-		var v100={x:a.x+0.5,y:a.y-0.5,z:a.z-0.5};
-		var v011={x:a.x-0.5,y:a.y+0.5,z:a.z+0.5};
-		var v010={x:a.x-0.5,y:a.y+0.5,z:a.z-0.5};
-		var v001={x:a.x-0.5,y:a.y-0.5,z:a.z+0.5};
-		var v000={x:a.x-0.5,y:a.y-0.5,z:a.z-0.5};
+		var v111={
+			x:a.x+0.5,
+			y:a.y+0.5,
+			z:a.z+0.5,
+			};
+		var v110={
+			x:a.x+0.5,
+			y:a.y+0.5,
+			z:a.z-0.5,
+			};
+		var v101={
+			x:a.x+0.5,
+			y:a.y-0.5,
+			z:a.z+0.5,
+			};
+		var v100={
+			x:a.x+0.5,
+			y:a.y-0.5,
+			z:a.z-0.5,
+			};
+		var v011={
+			x:a.x-0.5,
+			y:a.y+0.5,
+			z:a.z+0.5,
+			};
+		var v010={
+			x:a.x-0.5,
+			y:a.y+0.5,
+			z:a.z-0.5,
+			};
+		var v001={
+			x:a.x-0.5,
+			y:a.y-0.5,
+			z:a.z+0.5,
+			};
+		var v000={
+			x:a.x-0.5,
+			y:a.y-0.5,
+			z:a.z-0.5,
+			};
 		var s1=new Array(v000,v100,v101,v001);
-		var s2=new Array(v010,v100,v101,v001);
+		var s2=new Array(v010,v011,v111,v110);
 		var s3=new Array(v010,v110,v100,v000);
 		var s4=new Array(v011,v001,v101,v111);
 		var s5=new Array(v000,v001,v011,v010);
@@ -58,15 +90,17 @@
 		shape3d(s6);
 	}
 	function shade(){
+		
 	ca=document.getElementById("canv");
 	ca=ca.getContext("2d");
 	arr=new Array();
 	//var b;
-	for(var i=0;i<100;i++){
+	ca.clearRect(0,0,500,500);
+	for(var i=0;i<10;i++){
 		var b={x:0,y:0,z:0};
-		b.x=Math.floor(Math.random()*20-100);
-		b.y=Math.floor(Math.random()*20-100);
-		b.z=Math.floor(Math.random()*20-100);
+		b.x=Math.floor(Math.random()*20)-10;
+		b.y=Math.floor(Math.random()*20)-10;
+		b.z=Math.floor(Math.random()*20)+5;
 		if(arr.indexOf(b)==-1){
 			arr.push(b);
 		}
