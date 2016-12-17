@@ -1,0 +1,88 @@
+<html>
+<head>
+	<tittle>方块测试
+	</tittle>
+	<script>
+	var ca;
+	function line2d(a,b){
+	ca.moveTo(Math.floor(a.x)+250,Math.floor(a.y)+250);
+	ca.lineTo(Math.floor(b.x)+250,Math.floor(b.y)+250);
+	ca.stroke();
+	}
+	function trans(a){
+		var b={x:0,y:0,z:0};
+		b.x=a.x*250/a.z;
+		b.y=a.y*250/a.z;
+		a.z=b.z;
+		return b;
+	}
+	function shape2d(a){
+		for(var i=0;i<a.length;i++){
+			if(i==0){
+				ca.moveTo(Math.floor(a[i].x)+250,Math.floor(a[i].y)+250);
+			}else{
+				ca.lineTo(Math.floor(a[i].x)+250,Math.floor(a[i].y)+250);
+			}
+		}
+			ca.closePath();
+			ca.stroke();
+			
+	}
+	function shape3d(a){
+		var b=new Array();
+		for(var i=0;i<a.length;i++){
+			b[i]=trans(a[i]);
+		}
+		shape2d(a);
+	}
+	function cube(a){
+		var v111={x:a.x+0.5,y:a.y+0.5,z:a.z+0.5};
+		var v110={x:a.x+0.5,y:a.y+0.5,z:a.z-0.5};
+		var v101={x:a.x+0.5,y:a.y-0.5,z:a.z+0.5};
+		var v100={x:a.x+0.5,y:a.y-0.5,z:a.z-0.5};
+		var v011={x:a.x-0.5,y:a.y+0.5,z:a.z+0.5};
+		var v010={x:a.x-0.5,y:a.y+0.5,z:a.z-0.5};
+		var v001={x:a.x-0.5,y:a.y-0.5,z:a.z+0.5};
+		var v000={x:a.x-0.5,y:a.y-0.5,z:a.z-0.5};
+		var s1=new Array(v000,v100,v101,v001);
+		var s2=new Array(v010,v100,v101,v001);
+		var s3=new Array(v010,v110,v100,v000);
+		var s4=new Array(v011,v001,v101,v111);
+		var s5=new Array(v000,v001,v011,v010);
+		var s6=new Array(v110,v111,v101,v100);
+		shape3d(s1);
+		shape3d(s2);
+		shape3d(s3);
+		shape3d(s4);
+		shape3d(s5);
+		shape3d(s6);
+	}
+	function shade(){
+	ca=document.getElementById("canv");
+	ca=ca.getContext("2d");
+	arr=new Array();
+	//var b;
+	for(var i=0;i<100;i++){
+		var b={x:0,y:0,z:0};
+		b.x=Math.floor(Math.random()*20-100);
+		b.y=Math.floor(Math.random()*20-100);
+		b.z=Math.floor(Math.random()*20-100);
+		if(arr.indexOf(b)==-1){
+			arr.push(b);
+		}
+	}
+	for(var i=0;i<arr.length;i++){
+		cube(arr[i]);
+	}
+}
+</script>
+</head>
+<body>
+<canvas id="canv" width="500" height="500"
+style="border:1px solid #000000;">
+</canvas> 
+<br>
+<button onclick="shade()">SHADE</button>
+
+</body>
+</html>
