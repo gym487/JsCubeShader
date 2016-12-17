@@ -4,12 +4,27 @@
 	</title>
 	<script>
 	var ca;
+	var arr;
+	var rx,ry,rz;
 	function line2d(a,b){
 	ca.moveTo(Math.floor(a.x)+250,Math.floor(a.y)+250);
 	ca.lineTo(Math.floor(b.x)+250,Math.floor(b.y)+250);
 	ca.stroke();
 	}
+	function ttrans(i){
+	}
+	function rtrans(i){
+     var	a=rx.value*Math.PI/180;
+	var b=ry.value*Math.PI/180;
+	var c=rz.value*Math.PI/180;
+	var x=i.x*(Math.cos(b)+Math.sin(b))*(Math.cos(c)-Math.sin(c));
+	var y=i.y*(Math.cos(a)-Math.sin(a))*(Math.sin(c)+Math.cos(c));
+	var z=i.z*(Math.sin(a)+Math.cos(a))*(Math.cos(b)-Math.sin(b));
+	var d={x:x,y:y,z:z};
+	return d;
+	}
 	function trans(a){
+		a=rtrans(a);
 		var b={x:0,y:0,z:0};
 		b.x=(a.x*500)/a.z;
 		b.y=(a.y*500)/a.z;
@@ -89,13 +104,11 @@
 		shape3d(s5);
 		shape3d(s6);
 	}
-	function shade(){
-		
-	ca=document.getElementById("canv");
-	ca=ca.getContext("2d");
-	arr=new Array();
+	function cubegen(){
+			arr=new Array();
 	//var b;
 	ca.clearRect(0,0,500,500);
+	ca.width=ca.width;
 	for(var i=0;i<10;i++){
 		var b={x:0,y:0,z:0};
 		b.x=Math.floor(Math.random()*20)-10;
@@ -105,9 +118,21 @@
 			arr.push(b);
 		}
 	}
+}
+	function shade(){
+		
+	ca=document.getElementById("canv");
+	rx=document.getElementById("rx");
+	ry=document.getElementById("ry");
+	rz=document.getElementById("rz");
+	ca=ca.getContext("2d");
+
 	for(var i=0;i<arr.length;i++){
 		cube(arr[i]);
 	}
+}
+function clear(){
+	ca.clearRect(0,0,500,500);
 }
 </script>
 </head>
@@ -116,7 +141,11 @@
 style="border:1px solid #000000;">
 </canvas> 
 <br>
-<button onclick="shade()">SHADE</button>
+<button onclick="shade()">SHADE</button><button onclick="cubegen()">NEW CUBES</button><button onclick="clear()">CLEAR</button>
+<br>
+<input id="rx" type="range"  step="1" value="0" min="-180" max="180"/>
+<input id="ry" type="range" step="1" value="0" min="-180" max="180"/>
+<input id="rz" type="range" step="1" value="0" min="-180" max="180"/>
 
 </body>
 </html>
