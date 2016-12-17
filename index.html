@@ -124,12 +124,19 @@
 		var s5=new Array(v000,v001,v011,v010);
 		var s6=new Array(v110,v111,v101,v100);
 		ca.fillStyle=colors[Math.floor(Math.random()*6)];
+		
+		if(dc.checked=="checked"||dc.checked==true){
+		a.y-ty.value>0?shape3d(s1):shape3d(s2);
+		a.z-tz.value>0?shape3d(s3):shape3d(s4);
+		a.x-tx.value>0?shape3d(s5):shape3d(s6);
+	}else{
 		shape3d(s1);
 		shape3d(s2);
 		shape3d(s3);
 		shape3d(s4);
 		shape3d(s5);
 		shape3d(s6);
+	}
 	}
 	function cubegen(){
 		arr=null;
@@ -157,7 +164,9 @@ function on(){
 	ty=document.getElementById("ty");
 	tz=document.getElementById("tz");
 		nu=document.getElementById("nu");
+		dc=document.getElementById("dc");
 	ca=vs.getContext("2d");
+	ca.strokeStyle="black";
 }
 	function shade(){
  clear();
@@ -182,15 +191,17 @@ style="border:1px solid #000000;">
 </canvas> 
 <br>
 <button onclick="shade()">SHADE</button><button onclick="cubegen()">NEW CUBES</button><button onclick="clear()">CLEAR</button>
-<br>
+<br>rotate:
 <input id="rx" type="range"  onchange="shade()" step="1" value="0" min="-180" max="180"/>
 <input id="ry" type="range" onchange="shade()" step="1" value="0" min="-180" max="180"/>
 <input id="rz" type="range" onchange="shade()" step="1" value="0" min="-180" max="180"/>
-<br>
+<br>movement:
 <input id="tx" type="range"  onchange="shade()" step="1" value="0" min="-20" max="20"/>
 <input id="ty" type="range" onchange="shade()" step="1" value="0" min="-20" max="20"/>
 <input id="tz" type="range" onchange="shade()" step="1" value="0" min="-20" max="20"/>
-<br>
+<br>number of qubes:
 <input id="nu" type="range" onchange="shade()" step="1" value="20" min="10" max="100"/>
+surface direction check:
+<input id="dc" type="checkbox" checked="checked" onchange="shade()" />
 </body>
 </html>
