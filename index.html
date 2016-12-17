@@ -135,9 +135,8 @@
 		arr=null;
 	arr=new Array();
 	//var b;
-	ca.clearRect(0,0,500,500);
-	vs.width=vs.width;
-	for(var i=0;i<50;i++){
+	clear();
+	for(var i=0;i<100;i++){
 		var b={x:0,y:0,z:0};
 		b.x=Math.floor(Math.random()*20)-10;
 		b.y=Math.floor(Math.random()*20)-10;
@@ -168,6 +167,9 @@ function on(){
 function clear(){
 	ca.clearRect(0,0,500,500);
 	vs.width=vs.width;
+	ca.fillStyle="white";
+	ca.clearRect(0,0,500,500);
+	
 }
 function reset(){
 }
