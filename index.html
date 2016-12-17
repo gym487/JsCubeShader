@@ -2,28 +2,46 @@
 <head>
 	<title>方块测试
 	</title>
+	<meta charset="utf-8"/>
 	<script>
-	var ca;
+	var ca,vs;
 	var arr;
 	var rx,ry,rz;
+	var colors=new Array("red","green","blue","gray","white");
 	function line2d(a,b){
 	ca.moveTo(Math.floor(a.x)+250,Math.floor(a.y)+250);
 	ca.lineTo(Math.floor(b.x)+250,Math.floor(b.y)+250);
 	ca.stroke();
 	}
 	function ttrans(i){
+		var b={
+			x:i.x-tx.value,
+			y:i.y-ty.value,
+			z:i.z-tz.value
+		}
+		return b;
 	}
 	function rtrans(i){
      var	a=rx.value*Math.PI/180;
 	var b=ry.value*Math.PI/180;
 	var c=rz.value*Math.PI/180;
-	var x=i.x*(Math.cos(b)+Math.sin(b))*(Math.cos(c)-Math.sin(c));
-	var y=i.y*(Math.cos(a)-Math.sin(a))*(Math.sin(c)+Math.cos(c));
-	var z=i.z*(Math.sin(a)+Math.cos(a))*(Math.cos(b)-Math.sin(b));
-	var d={x:x,y:y,z:z};
+	var d={   //rotate around x
+		x:i.x,
+		y:i.y*Math.cos(a)-i.z*Math.sin(a),
+		z:i.y*Math.sin(a)+i.z*Math.cos(a)};
+		d={ //rotate around y
+			x:d.x*Math.cos(b)+d.z*Math.sin(b),
+			y:d.y,
+			z:d.z*Math.cos(b)-d.x*Math.sin(b)};
+		d={//rotate around z
+			x:d.x*Math.cos(c)-d.y*Math.sin(c),
+			y:d.x*Math.sin(c)+d.y*Math.cos(c),
+			z:d.z};
+			
 	return d;
 	}
 	function trans(a){
+		a=ttrans(a);
 		a=rtrans(a);
 		var b={x:0,y:0,z:0};
 		b.x=(a.x*500)/a.z;
@@ -32,6 +50,7 @@
 		return b;
 	}
 	function shape2d(a){
+
 		for(var i=0;i<a.length;i++){
 			if(i==0){
 				ca.moveTo(Math.floor(a[i].x)+250,Math.floor(a[i].y)+250);
@@ -41,13 +60,20 @@
 		}
 			ca.closePath();
 			ca.stroke();
+			ca.fill();
 			
 	}
 	function shape3d(a){
 		var b=new Array();
+		
 		for(var i=0;i<a.length;i++){
+			
 			b[i]=trans(a[i]);
+						if(a[i].z<=0){
+				return;
+			}
 		}
+
 		shape2d(b);
 	}
 	function cube(a){
@@ -97,6 +123,7 @@
 		var s4=new Array(v011,v001,v101,v111);
 		var s5=new Array(v000,v001,v011,v010);
 		var s6=new Array(v110,v111,v101,v100);
+		ca.fillStyle=colors[Math.floor(Math.random()*6)];
 		shape3d(s1);
 		shape3d(s2);
 		shape3d(s3);
@@ -105,47 +132,59 @@
 		shape3d(s6);
 	}
 	function cubegen(){
-			arr=new Array();
+		arr=null;
+	arr=new Array();
 	//var b;
 	ca.clearRect(0,0,500,500);
-	ca.width=ca.width;
-	for(var i=0;i<10;i++){
+	vs.width=vs.width;
+	for(var i=0;i<50;i++){
 		var b={x:0,y:0,z:0};
 		b.x=Math.floor(Math.random()*20)-10;
 		b.y=Math.floor(Math.random()*20)-10;
-		b.z=Math.floor(Math.random()*20)+5;
+		b.z=Math.floor(Math.random()*20)+15;
 		if(arr.indexOf(b)==-1){
 			arr.push(b);
 		}
 	}
 }
-	function shade(){
-		
-	ca=document.getElementById("canv");
+
+function on(){
+			
+	vs=document.getElementById("canv");
 	rx=document.getElementById("rx");
 	ry=document.getElementById("ry");
 	rz=document.getElementById("rz");
-	ca=ca.getContext("2d");
-
+	tx=document.getElementById("tx");
+	ty=document.getElementById("ty");
+	tz=document.getElementById("tz");
+	ca=vs.getContext("2d");
+}
+	function shade(){
+ clear();
 	for(var i=0;i<arr.length;i++){
 		cube(arr[i]);
 	}
 }
 function clear(){
 	ca.clearRect(0,0,500,500);
+	vs.width=vs.width;
+}
+function reset(){
 }
 </script>
 </head>
-<body>
+<body onload="on()">
 <canvas id="canv" width="500" height="500"
 style="border:1px solid #000000;">
 </canvas> 
 <br>
 <button onclick="shade()">SHADE</button><button onclick="cubegen()">NEW CUBES</button><button onclick="clear()">CLEAR</button>
 <br>
-<input id="rx" type="range"  step="1" value="0" min="-180" max="180"/>
-<input id="ry" type="range" step="1" value="0" min="-180" max="180"/>
-<input id="rz" type="range" step="1" value="0" min="-180" max="180"/>
-
+<input id="rx" type="range"  onchange="shade()" step="1" value="0" min="-180" max="180"/>
+<input id="ry" type="range" onchange="shade()" step="1" value="0" min="-180" max="180"/>
+<input id="rz" type="range" onchange="shade()" step="1" value="0" min="-180" max="180"/>
+<input id="tx" type="range"  onchange="shade()" step="1" value="0" min="-20" max="20"/>
+<input id="ty" type="range" onchange="shade()" step="1" value="0" min="-20" max="20"/>
+<input id="tz" type="range" onchange="shade()" step="1" value="0" min="-20" max="20"/>
 </body>
 </html>
