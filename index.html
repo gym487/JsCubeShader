@@ -123,7 +123,7 @@
 		var s4=new Array(v011,v001,v101,v111);
 		var s5=new Array(v000,v001,v011,v010);
 		var s6=new Array(v110,v111,v101,v100);
-		ca.fillStyle=colors[Math.floor(Math.random()*6)];
+		ca.fillStyle=a.color;
 		
 		if(dc.checked=="checked"||dc.checked==true){
 		a.y-ty.value>0?shape3d(s1):shape3d(s2);
@@ -144,7 +144,7 @@
 	//var b;
 	clear();
 	for(var i=0;i<nu.value;i++){
-		var b={x:0,y:0,z:0};
+		var b={x:0,y:0,z:0,color:colors[Math.floor(Math.random()*6)]};
 		b.x=Math.floor(Math.random()*20)-10;
 		b.y=Math.floor(Math.random()*20)-10;
 		b.z=Math.floor(Math.random()*20)+15;
