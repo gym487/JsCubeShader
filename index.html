@@ -136,7 +136,7 @@
 	arr=new Array();
 	//var b;
 	clear();
-	for(var i=0;i<100;i++){
+	for(var i=0;i<nu.value;i++){
 		var b={x:0,y:0,z:0};
 		b.x=Math.floor(Math.random()*20)-10;
 		b.y=Math.floor(Math.random()*20)-10;
@@ -156,6 +156,7 @@ function on(){
 	tx=document.getElementById("tx");
 	ty=document.getElementById("ty");
 	tz=document.getElementById("tz");
+		nu=document.getElementById("nu");
 	ca=vs.getContext("2d");
 }
 	function shade(){
@@ -185,8 +186,11 @@ style="border:1px solid #000000;">
 <input id="rx" type="range"  onchange="shade()" step="1" value="0" min="-180" max="180"/>
 <input id="ry" type="range" onchange="shade()" step="1" value="0" min="-180" max="180"/>
 <input id="rz" type="range" onchange="shade()" step="1" value="0" min="-180" max="180"/>
+<br>
 <input id="tx" type="range"  onchange="shade()" step="1" value="0" min="-20" max="20"/>
 <input id="ty" type="range" onchange="shade()" step="1" value="0" min="-20" max="20"/>
 <input id="tz" type="range" onchange="shade()" step="1" value="0" min="-20" max="20"/>
+<br>
+<input id="nu" type="range" onchange="shade()" step="1" value="20" min="10" max="100"/>
 </body>
 </html>
