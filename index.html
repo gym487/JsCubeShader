@@ -170,7 +170,9 @@ function on(){
 }
 	function shade(){
  clear();	
- arr.sort(function(a,b){return b.z-a.z});
+ arr.sort(function(a,b){
+	 return (Math.pow(b.z-tz.value)+Math.pow(b.z-tx.value)+Math.pow(b.y-ty.value))-(Math.pow(a.z-tz.value)+Math.pow(a.z-tx.value)+Math.pow(a.y-ty.value));
+	 });
 	for(var i=0;i<arr.length;i++){
 		cube(arr[i]);
 	}
