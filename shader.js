@@ -18,10 +18,7 @@ vec3.prototype.add(a,b){
 vec3.prototype.sub(a,b){
 	return vec3.add(a,b.n);
 }
-vec3.prototype.sub=function(i,b){
 
-		return vec3.sub(i,b);
-	}
 vec3.prototype.rtrans=function(i,a,b,c){//a,b,c  rx ry rz
     var a=a*Math.PI/180;
 	var b=b*Math.PI/180;
@@ -68,6 +65,7 @@ this.a=a;
 this.b=b;
 this.c=c;
 this.f=vec3.cross(vec3.sub(b,a),vec3.sub(c,b)).unit();
+
 }
 /*
 function qsurf(a,b,c,d){//please make sure this four point is in one surface
@@ -79,7 +77,7 @@ this.f=vec3.cross(vec3.sub(b,a),vec3.sub(c,b));
 }*/
 function ray3(a,b){
 	this.p=a;
-	this.d=b;//p=point d=direction
+	this.d=b.unit();//p=point d=direction
 }//a,b vec3
 function raytri(r,t){
 var e1=t.b-t.a;
@@ -99,5 +97,14 @@ if(u<0||v<0||u+v>1||t<0){
 	return vec3.add(o,vec3.mul(d,t));
 }
 }
-
+function ri(r,t){
+	return vec3.sub(r.d,vec3.mul(2*vec3.dot(r.d,t.f),t.f)).unit();
+}
+function fs(r,t){
+	var rr=raytri(r,t);
+	if(rr!=false){
+		return ray3(rr,ri(r,t));
+	}else{
+		return false;
+	}
 }
