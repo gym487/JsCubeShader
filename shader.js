@@ -1,4 +1,4 @@
-function vec3(var x,var y, var z){
+function vec3(x,y,z){
 this.x=x;
 this.y=y;
 this.z=z;
@@ -10,15 +10,15 @@ this.mod=function(){
 	return Math.sqrt(Math.pow(this.x)+Math.pow(this.y)+Math.pow(this.z));
 }
 this.unit=function(){
-	return vec3.div(this,this.mod());
+	return this.div(this.mod());
 }
-vec3.prototype.add(a,b){
-	return new vct3(a.x+b.x,a.y+b.y,a.z+b.z);
+this.mul=function(a){
+	return new vec3(this.x*a,this.y*a,ythis.z*a);
 }
-vec3.prototype.sub(a,b){
-	return vec3.add(a,b.n);
+this.div=function(a){
+	return this.mul(1/a);
 }
-
+}
 vec3.prototype.rtrans=function(i,a,b,c){//a,b,c  rx ry rz
     var a=a*Math.PI/180;
 	var b=b*Math.PI/180;
@@ -38,6 +38,7 @@ vec3.prototype.rtrans=function(i,a,b,c){//a,b,c  rx ry rz
 			
 	return new vec3(d.x,d.y,d.z);
 	}
+	
 	vec3.prototype.trans=function(a){
 		a=ttrans(a);
 		a=rtrans(a);
@@ -53,12 +54,7 @@ vec3.prototype.rtrans=function(i,a,b,c){//a,b,c  rx ry rz
 	vec3.prototype.dot=function(a,b){
 		return a.x*b.x+a.y*b.y+a.z*b.z;
 	}
-	vec3.prototype.mul=function(a,b){
-	return new vec3(a.x*b,a.y*b,a.z*b);
-	}
-	vec3.prototype.div=function(a,b){
-	return vec3.mul(a,1/b);
-	}
+
 	
 function trisurf(a,b,c){
 this.a=a;
@@ -79,7 +75,7 @@ function ray3(a,b){
 	this.p=a;
 	this.d=b.unit();//p=point d=direction
 }//a,b vec3
-function raytri(r,t){
+function raysurf(r,t){//ray cross with squre
 var e1=t.b-t.a;
 var e2=t.c-t.a;
 var d=r.d.unit();
@@ -91,17 +87,17 @@ var g=vec3.dot(p,e1).mod
 var t=vec3.dot(q,e2)/g;
 var u=vec3.dot(p,t)/g;
 var v=vec3.dot(q,d)/g;
-if(u<0||v<0||u+v>1||t<0){
+if(u<0||v<0||u>1||v>1||t<0){
 	return false;
 }else{
-	return vec3.add(o,vec3.mul(d,t));
+	return {pp:vec3.add(o,d.mul(t)),t:t,u:u,v:v};
 }
 }
 function ri(r,t){
-	return vec3.sub(r.d,vec3.mul(2*vec3.dot(r.d,t.f),t.f)).unit();
+	return vec3.sub(r.d,vec3.dot(r.d,t.f).mul(t.f)).unit();
 }
 function fs(r,t){
-	var rr=raytri(r,t);
+	var rr=raysurf(r,t);
 	if(rr!=false){
 		return ray3(rr,ri(r,t));
 	}else{
@@ -109,4 +105,5 @@ function fs(r,t){
 	}
 }
 //TODO:  Add Zhe She And complete the whole scene below...
+//Re TODO: Fuck the Zhe She...Screw you guys, I'm going home..
 
